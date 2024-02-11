@@ -1,16 +1,21 @@
 import React from "react";
 import { FaDownload } from "react-icons/fa";
+import useInfo from "../Hooks/useInfoHook.js";
+
+// console.log(info)
 
 const Card = () => {
+    // const info=useInfo();
+    
   return (
     <>
       <div className="w-[12%]  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <a href="#">
-          <img className="rounded-t-lg" alt="" />
+          <img className="rounded-t-lg" src="https://m.media-amazon.com/images/M/MV5BOWZmOGQyNDctYWFjMC00NWQxLTg1YWQtMzExZWQzNjgzZDBiXkEyXkFqcGdeQXVyMTk3OTQ4ODk@._V1_.jpg" alt="" />
         </a>
         <div className="p-2">
           <a href="#">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            <h5 className="mb-2 text-2xl mx-auto font-bold tracking-tight text-gray-900 dark:text-white">
               The Boy 2021
             </h5>
           </a>
