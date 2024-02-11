@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import {  NavLink } from 'react-router-dom'
 
 const Header = () => {
   return (<>
@@ -14,7 +14,7 @@ const Header = () => {
         <div>
         <input className='bg-yellow-200 h-6 rounded-md my-auto mr-2' placeholder='Search Your Movies' type="search"/><button  className='bg-orange-300 w-16 font-semibold rounded-lg'>Search</button>
         </div>
-    </div>
+    </div>  
             
   </>
   )
