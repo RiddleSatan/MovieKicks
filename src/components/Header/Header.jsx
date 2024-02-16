@@ -1,7 +1,16 @@
 import React from 'react'
 import {  NavLink } from 'react-router-dom'
+import useFetch from '../Hooks/useInfoHook'
+import { useState } from 'react'
+
+
 
 const Header = () => {
+  const [search, setSearch] = useState('')
+
+const handlechange= (e)=>{
+setSearch(e.target.value)
+}
   return (<>
     <div className='w-{90%} h-14 m-4 rounded-lg bg-gray-200 font-medium  flex justify-between items-center px-6'>
         <h1 className='text-lg'>Just_Ur_Movies</h1>
@@ -12,7 +21,7 @@ const Header = () => {
             <NavLink to={'/contact'} >Dont Contact Us</NavLink>
         </div>
         <div>
-        <input className='bg-yellow-200 h-6 rounded-md my-auto mr-2' placeholder='Search Your Movies' type="search"/><button  className='bg-orange-300 w-16 font-semibold rounded-lg'>Search</button>
+        <input className='bg-yellow-200 h-6 rounded-md my-auto mr-2' placeholder='Search Your Movies' type="search" value={search} onChange={handlechange}/><button  className='bg-orange-300 w-16 font-semibold rounded-lg'>Search</button>
         </div>
     </div>  
             

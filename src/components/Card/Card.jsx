@@ -7,32 +7,39 @@ const Card = () => {
   const { data, loading, error } = useFetch("spiderman");
   return (
     <>
-      
-        {
-          loading?(
-            <h1>loading...</h1>
-          ):error?(
-            <h1>{error}</h1>
-          ):(
-            <div className="w-[90%] flex gap-20 flex-wrap mx-auto">
-                 {data.map((info,id)=>(
-                  <div key={id} className="w-[18%]   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                          <a href="#">
-                          <img className="rounded-t-lg" src={info.i.imageUrl} alt={info.l} />
-                          </a>
-                          <div className="p-2 ">
-                            
-                              <h5 className="mb-2  text-md mx-auto font-bold tracking-tight text-gray-900 dark:text-white">{info.l}</h5>
-                              <h5 className="mb-2 text-md mx-auto font-bold tracking-tight text-gray-900 dark:text-white">{info?.s}</h5>
-                              <h5 className="mb-2 text-md mx-auto font-bold tracking-tight text-gray-900 dark:text-white">{info?.q}</h5>
-                            
-                          </div>
-                  </div>
-                 ))}
+      {loading ? (
+        <h1>loading...</h1>
+      ) : error ? (
+        <h1>{error}</h1>
+      ) : (
+        <div className="w-[90%] flex gap-20 flex-wrap mx-auto">
+          {data.map((info, id) => (
+            <div
+              key={id}
+              className="w-[18%]   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+            >
+              <a href="#">
+                <img
+                  className="rounded-t-lg"
+                  src={info.i.imageUrl}
+                  alt={info.l}
+                />
+              </a>
+              <div className="p-2 ">
+                <h5 className="mb-2  text-md mx-auto font-bold tracking-tight text-gray-900 dark:text-white">
+                  {info.l}
+                </h5>
+                <h5 className="mb-2 text-md mx-auto font-bold tracking-tight text-gray-900 dark:text-white">
+                  {info?.s}
+                </h5>
+                <h5 className="mb-2 text-md mx-auto font-bold tracking-tight text-gray-900 dark:text-white">
+                  {info?.q}
+                </h5>
+              </div>
             </div>
-          )
-        }
-           
+          ))}
+        </div>
+      )}
     </>
 
     // <>
@@ -59,8 +66,6 @@ const Card = () => {
     // </>
   );
 };
-
-
 
 // function Card() {
 //   const { data, loading, error } = useFetch("spiderman");

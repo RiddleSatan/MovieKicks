@@ -6,13 +6,10 @@ import Footer from './components/Footer/Footer.jsx'
 import Card from './components/Card/Card.jsx'
 import axios from 'axios'
 
-// (function movieData(){
-  
-// })()
+
 
 
 function App() {
-
   useEffect(()=>{
     axios({
       method: 'GET',
@@ -30,6 +27,7 @@ function App() {
      console.error("Error in fetching the data ",err)
     })
   },[])
+  
 
   const [count, setCount] = useState(0)
 
