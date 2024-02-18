@@ -4,7 +4,7 @@ import useInfo from "../Hooks/useInfoHook";
 import useFetch from "../Hooks/useInfoHook";
 
 const Card = () => {
-  const { data, loading, error } = useFetch("batman");
+  let { data, loading, error } = useFetch("batman");
   // console.log(data)
   return (
     <>

@@ -9,16 +9,21 @@ const Header = () => {
 
   
 
-  const [arraydata, setArraydata] = useState([])
+  let [arraydata, setArraydata] = useState([])
 
   useEffect(()=>{
     if(data){
-      // console.log(data)
-      setArraydata(data)
-      // console.log(arraydata)
+      setArraydata(data)}
+    else{
+      console.log('There was an error while loading the data')
+    
     }
+      
   },[data,loading])
 
+setTimeout(() => {
+  console.log(arraydata)
+}, 5000);
 
   const handlechange = (e) => {
     setSearch(e.target.value);

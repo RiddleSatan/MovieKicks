@@ -13,6 +13,7 @@ function useFetch(query) {
     try {
       const { status, data } = await axios.request(`https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`);
       // console.log(data.Search)
+      console.log('a request was made')
       if (status === 200) setData(data.Search);
     } catch (error) {
       setError(error.message);
