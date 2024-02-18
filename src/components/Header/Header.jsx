@@ -21,9 +21,6 @@ const Header = () => {
       
   },[data,loading])
 
-setTimeout(() => {
-  console.log(arraydata)
-}, 5000);
 
   const handlechange = (e) => {
     setSearch(e.target.value);
