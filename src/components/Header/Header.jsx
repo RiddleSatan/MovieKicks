@@ -5,28 +5,33 @@ import { useState } from "react";
 
 const Header = () => {
   const [search, setSearch] = useState("");
-  const { data, loading, error } = useFetch("spiderman");
+  const { data, loading, error } = useFetch(`${search}`);
 
-  
+  let [arraydata, setArraydata] = useState([]);
 
-  let [arraydata, setArraydata] = useState([])
-
-  useEffect(()=>{
-    if(data){
-      setArraydata(data)}
-    else{
-      console.log('There was an error while loading the data')
-    
+  useEffect(() => {
+    if (data) {
+      setArraydata(data);
+      // console.log(data)
+    } else {
+      console.log("There was an error while loading the data");
     }
-      
-  },[data,loading])
+  }, [data, loading]);
 
+  useEffect(() => {
+    console.log(arraydata)
+  }, [arraydata]);
 
   const handlechange = (e) => {
     setSearch(e.target.value);
-    
   };
-  
+  const handleSearch = () => {
+    setSearch(search);
+    // console.log(search)
+    setArraydata(data);
+    // console.log(arraydata)
+  };
+
   return (
     <>
       <div className="w-{90%} h-14 m-4 rounded-lg bg-gray-200 font-medium  flex justify-between items-center px-6">
@@ -45,9 +50,19 @@ const Header = () => {
             value={search}
             onChange={handlechange}
           />
-          <button className="bg-orange-300 w-16 font-semibold rounded-lg">
+          <button
+            className="bg-orange-300 w-16 font-semibold rounded-lg"
+            onClick={handleSearch}
+          >
             Search
           </button>
+          {arraydata.length > 0 && (
+            <ul>
+              {arraydata.slice(0, 3).map((index, item) => (
+                <li key={index}>{item.Title}</li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </>
