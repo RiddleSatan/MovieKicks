@@ -7,37 +7,23 @@ const Header = () => {
   const [search, setSearch] = useState("");
   const { data, loading, error } = useFetch('spiderman');
 
-  let [arraydata, setArraydata] = useState([]);
+ 
 
   useEffect(() => {
-    if (data) {
-      setArraydata(data);
-      // console.log(data)
-    } else {
-      console.log("There was an error while loading the data");
+    if (search.trim() !== "") {
+      useFetch(search); 
     }
-  }, [data, loading]);
-
-  useEffect(() => {
-    console.log(arraydata)
-  }, [arraydata]);
-
+  }, [search]); 
   const handlechange = (e) => {
     setSearch(e);
     console.log(search)
   };
-const res=data.filter((data)=>{
-  return data && data.Title && data.Title.toLowerCase().includes(search)
+
+const res=data.filter((e)=>{
+  return e && e.Title && e.Title.toLowerCase().includes(search)
 })
 console.log(res)
 
-  const handleSearch = () => {
-    setSearch(search);
-    console.log(search)
-    // console.log(search)
-    // setArraydata(data);
-    // console.log(arraydata)
-  };
 
   return (
     <>
@@ -59,7 +45,7 @@ console.log(res)
           />
           <button
             className="bg-orange-300 w-16 font-semibold rounded-lg "
-            onClick={handleSearch}
+            
           >
             Search
           </button>
