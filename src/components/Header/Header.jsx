@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const Header = () => {
   const [search, setSearch] = useState("");
-  const { data, loading, error } = useFetch(`${search}`);
+  const { data, loading, error } = useFetch('spiderman');
 
   let [arraydata, setArraydata] = useState([]);
 
@@ -23,12 +23,19 @@ const Header = () => {
   }, [arraydata]);
 
   const handlechange = (e) => {
-    setSearch(e.target.value);
+    setSearch(e);
+    console.log(search)
   };
+const res=data.filter((data)=>{
+  return data && data.Title && data.Title.toLowerCase().includes(search)
+})
+console.log(res)
+
   const handleSearch = () => {
     setSearch(search);
+    console.log(search)
     // console.log(search)
-    setArraydata(data);
+    // setArraydata(data);
     // console.log(arraydata)
   };
 
@@ -44,27 +51,31 @@ const Header = () => {
         </div>
         <div>
           <input
-            className="bg-yellow-200 h-6 rounded-md my-auto mr-2"
+            className="bg-yellow-200 h-6 rounded-md my-auto mr-2 "
             placeholder="Search Your Movies"
             type="search"
             value={search}
-            onChange={handlechange}
+            onChange={(e)=>handlechange(e.target.value)}
           />
           <button
-            className="bg-orange-300 w-16 font-semibold rounded-lg"
+            className="bg-orange-300 w-16 font-semibold rounded-lg "
             onClick={handleSearch}
           >
             Search
           </button>
-          {arraydata.length > 0 && (
-            <ul>
-              {arraydata.slice(0, 3).map((index, item) => (
-                <li key={index}>{item.Title}</li>
-              ))}
-            </ul>
-          )}
+          
         </div>
       </div>
+      <div className=" w-40 absolute  right-[142px] mt-2 top-14">
+
+          {data.length > 0 && (
+            <ul className="bg-[#bef0ff] w-fit p-1 rounded-md ">
+              {data.slice(0, 3).map((item,index ) => (
+                <li className="bg-white px-3 rounded w-[220px] my-1" key={index}>{item.Title}</li>
+                ))}
+            </ul>
+          )}
+          </div>
     </>
   );
 };
