@@ -2,54 +2,43 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 // import useFetch from "../Hooks/useInfoHook";
 import { useState } from "react";
+import axios from "axios";
 
 const Header = () => {
-  function useFetch(query) {
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-    const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
 
-    const fetchData = async () => {
-      setError("");
-      setLoading(true);
-      try {
-        const { status, data } = await axios.request(
-          `https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`
-        );
-        // console.log(data.Search)
-        console.log("a request was made");
-        if (status === 200) setData(data.Search);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-      if (query) {
-        fetchData(query);
-      }
-    }, []);
+  async function fetchData(query) {
+    setError('');
 
-    return { loading, data, error };
+    setLoading(true);
+    try {
+      const { status, data } = await axios.request(
+        `https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`
+      );
+      console.log(data);
+      console.log("a request was made");
+      if (status === 200) setData(data.Search);
+    } catch (error) {
+      setError(error.message);
+      console.log(error)
+    } finally {
+      setLoading(false);
+    }
   }
 
-  const [search, setSearch] = useState("");
-  const [data, setData] = useState("");
-
   useEffect(() => {
-    if (search.trim() !== "") {
-      useFetch(search);
-      setData(data);
+    if (search) {
+      fetchData(search);
+      console.log(data);
+    }
+    else{
+      setData([])
     }
   }, [search]);
-
-  const handlechange = (e) => {
-    setSearch(e);
-   
-    console.log(search);
-  };
 
   return (
     <>
@@ -67,7 +56,7 @@ const Header = () => {
             placeholder="Search Your Movies"
             type="search"
             value={search}
-            onChange={(e) => handlechange(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
           />
           <button className="bg-orange-300 w-16 font-semibold rounded-lg ">
             Search
@@ -75,7 +64,7 @@ const Header = () => {
         </div>
       </div>
       <div className=" w-40 absolute  right-[142px] mt-2 top-14">
-        {data.length > 0 && (
+        {data && data.length > 0 && (
           <ul className="bg-[#bef0ff] w-fit p-1 rounded-md ">
             {data.slice(0, 3).map((item, index) => (
               <li className="bg-white px-3 rounded w-[220px] my-1" key={index}>
