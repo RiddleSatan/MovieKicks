@@ -5,25 +5,22 @@ import { useState } from "react";
 
 const Header = () => {
   const [search, setSearch] = useState("");
-  const { data, loading, error } = useFetch('spiderman');
-
- 
+  const { data, loading, error } = useFetch(search.toString());
 
   useEffect(() => {
     if (search.trim() !== "") {
-      useFetch(search); 
+      useFetch(search);
     }
-  }, [search]); 
+  }, [search]);
   const handlechange = (e) => {
     setSearch(e);
-    console.log(search)
+    console.log(search);
   };
 
-const res=data.filter((e)=>{
-  return e && e.Title && e.Title.toLowerCase().includes(search)
-})
-console.log(res)
-
+  const res = data.filter((e) => {
+    return e && e.Title && e.Title.toLowerCase().includes(search);
+  });
+  console.log(res);
 
   return (
     <>
@@ -41,27 +38,24 @@ console.log(res)
             placeholder="Search Your Movies"
             type="search"
             value={search}
-            onChange={(e)=>handlechange(e.target.value)}
+            onChange={(e) => handlechange(e.target.value)}
           />
-          <button
-            className="bg-orange-300 w-16 font-semibold rounded-lg "
-            
-          >
+          <button className="bg-orange-300 w-16 font-semibold rounded-lg ">
             Search
           </button>
-          
         </div>
       </div>
       <div className=" w-40 absolute  right-[142px] mt-2 top-14">
-
-          {data.length > 0 && (
-            <ul className="bg-[#bef0ff] w-fit p-1 rounded-md ">
-              {data.slice(0, 3).map((item,index ) => (
-                <li className="bg-white px-3 rounded w-[220px] my-1" key={index}>{item.Title}</li>
-                ))}
-            </ul>
-          )}
-          </div>
+        {data.length > 0 && (
+          <ul className="bg-[#bef0ff] w-fit p-1 rounded-md ">
+            {data.slice(0, 3).map((item, index) => (
+              <li className="bg-white px-3 rounded w-[220px] my-1" key={index}>
+                {item.Title}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </>
   );
 };
