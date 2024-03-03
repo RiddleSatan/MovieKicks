@@ -1,26 +1,55 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import useFetch from "../Hooks/useInfoHook";
+// import useFetch from "../Hooks/useInfoHook";
 import { useState } from "react";
 
 const Header = () => {
+  function useFetch(query) {
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [error, setError] = useState("");
+
+    const fetchData = async () => {
+      setError("");
+      setLoading(true);
+      try {
+        const { status, data } = await axios.request(
+          `https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`
+        );
+        // console.log(data.Search)
+        console.log("a request was made");
+        if (status === 200) setData(data.Search);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    useEffect(() => {
+      if (query) {
+        fetchData(query);
+      }
+    }, []);
+
+    return { loading, data, error };
+  }
+
   const [search, setSearch] = useState("");
-  const { data, loading, error } = useFetch(search.toString());
+  const [data, setData] = useState("");
 
   useEffect(() => {
     if (search.trim() !== "") {
       useFetch(search);
+      setData(data);
     }
   }, [search]);
+
   const handlechange = (e) => {
     setSearch(e);
+   
     console.log(search);
   };
-
-  const res = data.filter((e) => {
-    return e && e.Title && e.Title.toLowerCase().includes(search);
-  });
-  console.log(res);
 
   return (
     <>
