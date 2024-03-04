@@ -8,8 +8,8 @@ const Header = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
 
-  // Create a single instance of CancelTokenSource outside of functions, but within a `useRef` hook
-  const cancelTokenSourceRef = React.useRef(axios.CancelToken.source());
+  // Create a single instance of CancelTokenSource outside of functions
+  const cancelTokenSource = axios.CancelToken.source();
 
   async function fetchData(query) {
     setError("");
@@ -18,7 +18,7 @@ const Header = () => {
     try {
       const { status, data } = await axios.get(
         `https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`,
-        { cancelToken: cancelTokenSourceRef.current.token }
+        { cancelToken: cancelTokenSource.current.token }
       );
 
       console.table(data);
@@ -40,7 +40,7 @@ const Header = () => {
   useEffect(() => {
     // Create a new CancelTokenSource only when search changes
     const currentCancelTokenSource = axios.CancelToken.source();
-    cancelTokenSourceRef.current = currentCancelTokenSource;
+    cancelTokenSource.current = currentCancelTokenSource;
 
     // Cleanup function to cancel pending requests on unmount
     return () => {
