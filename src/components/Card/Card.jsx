@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect,useState } from "react";
 import { FaDownload } from "react-icons/fa";
 import useInfo from "../Hooks/useInfoHook";
 import useFetch from "../Hooks/useInfoHook";
+import UserContext from "../../context/UserContext";
+
+const handleData=(user)=>{
+  return  { data, loading, error } = useFetch(user || 'batman');
+}
+  
 
 const Card = () => {
-  let { data, loading, error } = useFetch("batman");
-  // console.log(data)
+  const {user}=useContext(UserContext)
+
+const { data, loading, error }=handleData()
+
+ useEffect(()=>{
+
+handleData(user)
+ },[user])
+ 
+ 
+  
   return (
     <>
       {loading ? (

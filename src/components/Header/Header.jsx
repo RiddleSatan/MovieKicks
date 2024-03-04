@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../context/UserContext";
 
 const Header = () => {
   const [search, setSearch] = useState("");
@@ -56,6 +57,15 @@ const Header = () => {
     }
   }, [search]);
 
+const {setUser}=useContext(UserContext)
+
+  const handleSubmit=(e)=>{
+ e.preventDefault()
+ setUser(search)
+// console.log(search)
+  }
+
+
   return (
     <>
       <div className="w-{90%} h-14 m-4 rounded-lg bg-gray-200 font-medium  flex justify-between items-center px-6">
@@ -66,7 +76,7 @@ const Header = () => {
           <NavLink to={"/about"}>About Us</NavLink>
           <NavLink to={"/contact"}>Dont Contact Us</NavLink>
         </div>
-        <div>
+        <form onSubmit={(e)=>handleSubmit(e)} >
           <input
             className="bg-yellow-200 h-6 rounded-md my-auto mr-2 "
             placeholder="Search Your Movies"
@@ -77,7 +87,7 @@ const Header = () => {
           <button className="bg-orange-300 w-16 font-semibold rounded-lg ">
             Search
           </button>
-        </div>
+        </form>
       </div>
       <div className=" w-40 absolute  right-[142px] mt-2 top-14">
         {data && data.length > 0 && (
