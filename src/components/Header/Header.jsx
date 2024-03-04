@@ -1,42 +1,58 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-// import useFetch from "../Hooks/useInfoHook";
-import { useState } from "react";
 import axios from "axios";
 
 const Header = () => {
   const [search, setSearch] = useState("");
-
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
 
-  async function fetchData(query) {
-    setError('');
+  // Create a single instance of CancelTokenSource outside of functions, but within a `useRef` hook
+  const cancelTokenSourceRef = React.useRef(axios.CancelToken.source());
 
+  async function fetchData(query) {
+    setError("");
     setLoading(true);
+
     try {
-      const { status, data } = await axios.request(
-        `https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`
+      const { status, data } = await axios.get(
+        `https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`,
+        { cancelToken: cancelTokenSourceRef.current.token }
       );
-      console.log(data);
+
+      console.table(data);
       console.log("a request was made");
+
       if (status === 200) setData(data.Search);
     } catch (error) {
-      setError(error.message);
-      console.log(error)
+      if (axios.isCancel(error)) {
+        console.log("Request cancelled"); // Handle cancellation gracefully
+      } else {
+        setError(error.message);
+        console.error(error);
+      }
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
+    // Create a new CancelTokenSource only when search changes
+    const currentCancelTokenSource = axios.CancelToken.source();
+    cancelTokenSourceRef.current = currentCancelTokenSource;
+
+    // Cleanup function to cancel pending requests on unmount
+    return () => {
+      currentCancelTokenSource.cancel("canceling the request on unmount");
+    };
+  }, [search]); // Ensure cancellation and re-creation on search changes
+
+  useEffect(() => {
     if (search) {
       fetchData(search);
-      console.log(data);
-    }
-    else{
-      setData([])
+    } else {
+      setData([]);
     }
   }, [search]);
 
