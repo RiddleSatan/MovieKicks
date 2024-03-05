@@ -1,26 +1,63 @@
-import React, { useContext, useEffect,useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 import useInfo from "../Hooks/useInfoHook";
 import useFetch from "../Hooks/useInfoHook";
 import UserContext from "../../context/UserContext";
+import axios from "axios";
 
-const handleData=(user)=>{
-  return  { data, loading, error } = useFetch(user || 'batman');
-}
-  
 
 const Card = () => {
-  const {user}=useContext(UserContext)
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-const { data, loading, error }=handleData()
+  const { user } = useContext(UserContext);
 
- useEffect(()=>{
+  useEffect(() => {
+    const getData = async (query) => {
+      try {
+        const { status, data } = await axios.get(
+          `https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`
+        );
+        console.log("A request was made!");
+        console.table(data);
+        if (status === 200) {
+          setData(data.Search);
+        }
+      } catch (error) {
+        console.log("Error...!", error);
+        setError("Error occurred while fetching data.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-handleData(user)
- },[user])
- 
- 
-  
+    getData(user || "batman"); // Use user or a default query here
+  }, [user]); // Call getData whenever user changes
+
+  // const getData = async (query) => {
+  //   try {
+  //     const { status, data } = await axios.get(
+  //       `https://www.omdbapi.com/?s=${query}&page=1&apikey=507669ab`
+  //     );
+  //     console.log("A request was made!");
+  //     console.table(data);
+  //     if (status == 200) {
+  //       setData(data.d);
+  //     }
+  //   } catch (error) {
+  //     console.log("Error...!", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // getData("batman");
+
+  // useEffect(()=>{
+  // getData(user)
+  // },[user])
+
   return (
     <>
       {loading ? (
